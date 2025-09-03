@@ -12,6 +12,7 @@ import { IEndpointProvider } from '../../../platform/endpoint/common/endpointPro
 import { IIgnoreService } from '../../../platform/ignore/common/ignoreService';
 import { ILogService } from '../../../platform/log/common/logService';
 import { FilterReason } from '../../../platform/networking/common/openai';
+import { INotificationService } from '../../../platform/notification/common/notificationService';
 import { ITabsAndEditorsService } from '../../../platform/tabs/common/tabsAndEditorsService';
 import { getWorkspaceFileDisplayPath, IWorkspaceService } from '../../../platform/workspace/common/workspaceService';
 import { ChatResponseStreamImpl } from '../../../util/common/chatResponseStreamImpl';
@@ -82,6 +83,7 @@ export class ChatParticipantRequestHandler {
 		@ITabsAndEditorsService tabsAndEditorsService: ITabsAndEditorsService,
 		@ILogService private readonly _logService: ILogService,
 		@IAuthenticationChatUpgradeService private readonly _authenticationUpgradeService: IAuthenticationChatUpgradeService,
+		@INotificationService private readonly _notificationService: INotificationService,
 	) {
 		this.location = this.getLocation(request);
 
@@ -273,6 +275,9 @@ export class ChatParticipantRequestHandler {
 					command: this.request.command
 				}
 			} satisfies ICopilotChatResult, true);
+
+			// Show completion notification after the agent finishes generation
+			await this._notificationService.showAgentCompletionNotification();
 
 			return <ICopilotChatResult>result;
 

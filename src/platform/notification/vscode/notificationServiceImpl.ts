@@ -34,4 +34,18 @@ export class NotificationService implements INotificationService {
 	async showQuotaExceededDialog(): Promise<unknown> {
 		return commands.executeCommand('workbench.action.chat.openQuotaExceededDialog');
 	}
+
+	async showAgentCompletionNotification(): Promise<void> {
+		// Show a notification that the agent has completed its work
+		await window.showInformationMessage('GitHub Copilot has finished generating your response.');
+		
+		// Play notification sound by executing a workbench command that would normally play a sound
+		// The bell/beep command is a common way to trigger system notification sound
+		try {
+			await commands.executeCommand('workbench.action.terminal.bell');
+		} catch (error) {
+			// If the bell command is not available, fall back to trying another approach
+			// Some VS Code builds might have different command availability
+		}
+	}
 }
