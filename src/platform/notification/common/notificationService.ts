@@ -36,7 +36,6 @@ export interface INotificationService {
 	showInformationMessage<T extends string>(message: string, options: MessageOptions, ...items: T[]): Promise<T | undefined>;
 	showWarningMessage(message: string, ...items: string[]): Promise<string | undefined>;
 	showQuotaExceededDialog(): Promise<unknown>;
-	showAgentCompletionNotification(): Promise<void>;
 	withProgress<R>(options: ProgressOptions, task: (progress: Progress<{
 		message?: string;
 		increment?: number;
@@ -58,10 +57,6 @@ export class NullNotificationService implements INotificationService {
 	}
 
 	showQuotaExceededDialog(): Promise<unknown> {
-		return Promise.resolve();
-	}
-
-	showAgentCompletionNotification(): Promise<void> {
 		return Promise.resolve();
 	}
 

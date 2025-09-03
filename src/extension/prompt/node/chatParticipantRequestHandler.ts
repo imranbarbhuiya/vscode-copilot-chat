@@ -277,7 +277,7 @@ export class ChatParticipantRequestHandler {
 			} satisfies ICopilotChatResult, true);
 
 			// Show completion notification after the agent finishes generation
-			await this._notificationService.showAgentCompletionNotification();
+			await this._notificationService.showInformationMessage('GitHub Copilot has finished generating your response.');
 
 			return <ICopilotChatResult>result;
 
